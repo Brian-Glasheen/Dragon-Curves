@@ -26,8 +26,16 @@ void draw() {
   translate(width/7 + width/15, height/5);
   scale(.7);
   
+  boolean b = false;
+  
   for (Segment s : lines) {
     s.render();
+    if (abs(s.theta - s.targetTheta) < .1) {
+      b = true;
+    }
+  }
+  if (b) {
+    step();
   }
 }
 
@@ -88,6 +96,8 @@ class Segment {
     stroke(this.c);
     
     this.theta = lerp(this.theta, this.targetTheta, .10);
+    //this.theta = this.theta + (this.targetTheta - this.theta) / 10;
+    
     line(this.x, this.y, (float) (this.x + this.l * cos(radians(this.theta))), (float) (this.y - this.l * sin(radians(this.theta)))); 
     //line(this.x, this.y, this.z, (float) (this.x + l * cos(radians(this.theta))), (float) (this.y - l * sin(radians(this.theta))), this.phi);
   }
